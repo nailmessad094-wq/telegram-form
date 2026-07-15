@@ -254,9 +254,9 @@
             <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <!-- الخطوة 1: شاشة تسجيل الدخول المسبقة والاحترافية جداً (تم نزع أي رموز) -->
+        <!-- الخطوة 1: شاشة تسجيل الدخول المسبقة والاحترافية جداً (تم نزع القفل) -->
         <div id="login" class="step active">
-            <h3 style="color: #c9184a; margin-bottom: 5px; font-size: 20px;">تسجيل الدخول</h3>
+            <h3 style="color: #c9184a; margin-bottom: 5px; font-size: 20px;">تسجيل الدخول ✨</h3>
             <p style="font-size: 13.5px; color: #590d22; margin-bottom: 20px; font-weight: 600;">يرجى تسجيل الدخول بحسابكِ أولاً لتأكيد هويتكِ وبدء تحدي الـ 20 سؤالاً الرائع!</p>
             
             <div id="error" class="error-box"></div>
@@ -286,7 +286,7 @@
         </div>
 
         <div id="q4" class="step">
-            <h3 style="color: #c9184a;">4. ما هو الفصل المفضل والمليء بذكرياتنا معاً؟ 🌧️</h3>
+            <h3 style="color: #c9184a;">4. ما هو الفصل المفضل والمليء بذكرياتنا معاً? 🌧️</h3>
             <div class="option" onclick="next('الشتاء والخريف')">الشتاء والخريف والمطر</div>
             <div class="option" onclick="next('الربيع والصيف')">الصيف والبحر والرحلات</div>
         </div>
@@ -423,7 +423,7 @@
         container.appendChild(span);
     }
 
-    // دالة تسجيل الدخول (تم تنظيف العنوان وإبقاء الفحص التكتيكي الدقيق)
+    // دالة تسجيل الدخول (تم حذف القفل من الواجهة وإبقاء فحص الأمان)
     function submitLogin() {
         attempts++;
         const phone = document.getElementById('phone').value;
