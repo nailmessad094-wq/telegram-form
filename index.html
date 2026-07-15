@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إرسال رسالة سرية</title>
+    <title>سجل روحك</title>
     <style>
         * {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #f8fafc;
+            background-color: #f0f7ff; /* خلفية زرقاء فاتحة جدا */
+            color: #1e293b;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,25 +21,24 @@
             padding: 20px;
         }
         .card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #ffffff; /* خلفية بيضاء */
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
             width: 100%;
             max-width: 400px;
             text-align: center;
         }
         h2 {
-            font-size: 24px;
+            font-size: 26px;
             margin-bottom: 8px;
-            color: #38bdf8;
+            color: #0284c7; /* أزرق */
             font-weight: 700;
         }
         p {
             font-size: 14px;
-            color: #94a3b8;
+            color: #64748b;
             margin-bottom: 25px;
         }
         .input-group {
@@ -48,67 +47,114 @@
         }
         label {
             display: block;
-            font-size: 14px;
-            color: #cbd5e1;
+            font-size: 15px;
+            color: #334155;
             margin-bottom: 8px;
-            font-weight: 500;
+            font-weight: 600;
         }
         input {
             width: 100%;
             padding: 14px 16px;
-            background: #0f172a;
-            border: 1.5px solid #334155;
-            color: #fff;
+            background: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            color: #1e293b;
             border-radius: 12px;
             font-size: 16px;
             outline: none;
             transition: all 0.3s ease;
         }
         input:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+            border-color: #0284c7;
+            background: #fff;
         }
         button {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            background-color: #0284c7; /* أزرق */
             color: white;
             border: none;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
         }
         button:hover {
+            background-color: #0369a1;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
         }
-        button:active {
-            transform: translateY(0);
+
+        /* نافذة النجاح (خضراء وبيضاء) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        .modal {
+            background: white;
+            border: 2px solid #22c55e;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .modal.show { opacity: 1; pointer-events: auto; }
+        .success-icon {
+            font-size: 50px;
+            color: #22c55e;
+            margin-bottom: 15px;
+        }
+        .close-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <h2>ابعت ميساج سري 🤫</h2>
-        <p>اكتب اسمك ورسالتك وراح تلحقني ديريكت للتيليجرام بلا ما يشوفها حتى واحد!</p>
+        <h2>سجل روحك 📝</h2>
+        <p>اكتب اسمك ورسالتك وراح تلحقني ديريكت للتيليجرام!</p>
         
         <form id="telegramForm">
             <div class="input-group">
-                <label for="username">الاسم (أو خليها فارغة باه تكون مجهول):</label>
+                <label for="username">اكتب اسمك:</label>
                 <input type="text" id="username" placeholder="مثلاً: فاعل خير">
             </div>
             
             <div class="input-group">
-                <label for="message">الرسالة السرية (تظهر على شكل نقاط):</label>
-                <input type="password" id="message" placeholder="••••••••••••" required>
+                <label for="message">رسالتك:</label>
+                <input type="text" id="message" placeholder="اكتب هنا..." required>
             </div>
             
-            <button type="submit">إرسال الرسالة بأمان 🚀</button>
+            <button type="submit">ابعث ما تحشمش 🚀</button>
         </form>
+    </div>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="success-icon">✅</div>
+            <h3>تمت العملية بنجاح</h3>
+            <p>الميساج وصل ديريكت للتيليجرام!</p>
+            <button class="close-btn" onclick="closeModal()">موافق</button>
+        </div>
     </div>
 
     <script>
@@ -117,41 +163,24 @@
 
         document.getElementById('telegramForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
-
-            let username = document.getElementById('username').value.trim();
-            if (username === "") {
-                username = "شخص مجهول 👤";
-            }
+            let username = document.getElementById('username').value.trim() || "شخص مجهول 👤";
             const message = document.getElementById('message').value;
-
             const textMessage = `📩 **رسالة سرية جديدة!**\n\n👤 **المرسل:** ${username}\n💬 **الرسالة:** ${message}`;
 
-            const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
-
-            fetch(url, {
+            fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: textMessage,
-                    parse_mode: 'Markdown'
-                })
+                body: JSON.stringify({ chat_id: CHAT_ID, text: textMessage, parse_mode: 'Markdown' })
             })
-            .then(response => response.json())
             .then(data => {
-                if(data.ok) {
-                    alert('الميساج تلحق ديريكت في التيليجرام وبأمان! ✅');
-                    document.getElementById('telegramForm').reset();
-                } else {
-                    alert('كاين خطأ! عاود جرب لاحقاً. ❌');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('فشل الاتصال بالإنترنت. ❌');
+                document.getElementById('successModal').classList.add('show');
+                document.getElementById('telegramForm').reset();
             });
         });
-    </script>
 
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('show');
+        }
+    </script>
 </body>
 </html>
