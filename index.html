@@ -3,55 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إرسال رسالة إلى تيليجرام</title>
+    <title>إرسال رسالة سرية</title>
     <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
         body {
-            font-family: Arial, sans-serif;
-            direction: rtl;
-            background-color: #f4f4f9;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #f8fafc;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            direction: rtl;
+            padding: 20px;
         }
-        .form-container {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            width: 90%;
-            max-width: 350px;
-        }
-        h2 { text-align: center; color: #333; margin-bottom: 20px; }
-        input, button {
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
+            max-width: 400px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #38bdf8;
+            font-weight: 700;
+        }
+        p {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0f172a;
+            border: 1.5px solid #334155;
+            color: #fff;
+            border-radius: 12px;
             font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
         }
         button {
-            background-color: #0088cc;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
             color: white;
             border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
         }
-        button:hover { background-color: #006699; }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+        }
+        button:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
 
-    <div class="form-container">
-        <h2>أرسل رسالة للبوت تاعك</h2>
+    <div class="card">
+        <h2>ابعت ميساج سري 🤫</h2>
+        <p>اكتب اسمك ورسالتك وراح تلحقني ديريكت للتيليجرام بلا ما يشوفها حتى واحد!</p>
+        
         <form id="telegramForm">
-            <input type="text" id="username" placeholder="اكتب اسمك هنا" required>
-            <!-- خانة الباسورد باه الميساج يخرج نقاط -->
-            <input type="password" id="message" placeholder="اكتب رسالتك هنا" required>
-            <button type="submit">إرسال لتيليجرام 🚀</button>
+            <div class="input-group">
+                <label for="username">الاسم (أو خليها فارغة باه تكون مجهول):</label>
+                <input type="text" id="username" placeholder="مثلاً: فاعل خير">
+            </div>
+            
+            <div class="input-group">
+                <label for="message">الرسالة السرية (تظهر على شكل نقاط):</label>
+                <input type="password" id="message" placeholder="••••••••••••" required>
+            </div>
+            
+            <button type="submit">إرسال الرسالة بأمان 🚀</button>
         </form>
     </div>
 
@@ -62,10 +118,13 @@
         document.getElementById('telegramForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
 
-            const username = document.getElementById('username').value;
+            let username = document.getElementById('username').value.trim();
+            if (username === "") {
+                username = "شخص مجهول 👤";
+            }
             const message = document.getElementById('message').value;
 
-            const textMessage = `📩 **رسالة جديدة!**\n\n👤 **المرسل:** ${username}\n💬 **الرسالة:** ${message}`;
+            const textMessage = `📩 **رسالة سرية جديدة!**\n\n👤 **المرسل:** ${username}\n💬 **الرسالة:** ${message}`;
 
             const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
 
@@ -81,10 +140,10 @@
             .then(response => response.json())
             .then(data => {
                 if(data.ok) {
-                    alert('راحت الرسالة بنجاح لتيليجرام! ✅');
+                    alert('الميساج تلحق ديريكت في التيليجرام وبأمان! ✅');
                     document.getElementById('telegramForm').reset();
                 } else {
-                    alert('كاين خطأ! تأكد من التوكن والآيدي تاعك. ❌');
+                    alert('كاين خطأ! عاود جرب لاحقاً. ❌');
                 }
             })
             .catch(error => {
@@ -95,4 +154,4 @@
     </script>
 
 </body>
-</html
+</html>
