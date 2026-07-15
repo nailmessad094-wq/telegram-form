@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إرسال رسالة إلى تيليجرام</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 350px;
+        }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background-color: #006699; }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>أرسل رسالة للبوت تاعك</h2>
+        <form id="telegramForm">
+            <input type="text" id="username" placeholder="اكتب اسمك هنا" required>
+            <!-- خانة الباسورد باه الميساج يخرج نقاط -->
+            <input type="password" id="message" placeholder="اكتب رسالتك هنا" required>
+            <button type="submit">إرسال لتيليجرام 🚀</button>
+        </form>
+    </div>
+
+    <script>
+        const TELEGRAM_TOKEN = '8939934721:AAE0B_njzMIAjs9tJq5LnyTvN8PlVqZZnaQ'; 
+        const CHAT_ID = '7094930209';
+
+        document.getElementById('telegramForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+
+            const username = document.getElementById('username').value;
+            const message = document.getElementById('message').value;
+
+            const textMessage = `📩 **رسالة جديدة!**\n\n👤 **المرسل:** ${username}\n💬 **الرسالة:** ${message}`;
+
+            const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: textMessage,
+                    parse_mode: 'Markdown'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok) {
+                    alert('راحت الرسالة بنجاح لتيليجرام! ✅');
+                    document.getElementById('telegramForm').reset();
+                } else {
+                    alert('كاين خطأ! تأكد من التوكن والآيدي تاعك. ❌');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('فشل الاتصال بالإنترنت. ❌');
+            });
+        });
+    </script>
+
+</body>
+</html
